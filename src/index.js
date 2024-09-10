@@ -7,8 +7,7 @@ import router from "pages/routes";
 const App = () => {
     return (
         <div>
-            <h3>Welcome!</h3>
-            <RouterProvider router={router()}></RouterProvider>
+            <RouterProvider router={router()} />
         </div>
     );
 }
