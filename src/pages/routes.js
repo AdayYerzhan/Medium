@@ -4,7 +4,7 @@ import GlobalFeed from "pages/globalFeed";
 import Article from "pages/article";
 import TopBar from "components/topBar";
 
-export default () => {
+const routes = () => {
     return createBrowserRouter([
         {
             path: "/",
@@ -22,3 +22,5 @@ export default () => {
         }
     ]);
 }
+
+export default routes;

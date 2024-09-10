@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider} from "react-router-dom";
 
-import router from "pages/routes";
+import routes from "pages/routes";
 
 const App = () => {
     return (
         <div>
-            <RouterProvider router={router()} />
+            <RouterProvider router={routes()} />
         </div>
     );
 }
