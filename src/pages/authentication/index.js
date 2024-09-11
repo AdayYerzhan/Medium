@@ -3,6 +3,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "hooks/useLocalStorage";
 import {CurrentUserContext} from "constexts/currentUser";
+import BackendErrorMessages from "./components/backendErrorMessages";
 
 const Authentication = () => {
     const isLogin = useLocation().pathname === "/login";
@@ -17,9 +18,9 @@ const Authentication = () => {
     const [username, setUsername] = useState("");
     const [data, setData] = useState(null);
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
-    const [token, setToken] = useLocalStorage("token");
-    const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext);
-    console.log("currentUserState", currentUserState)
+    const [, setToken] = useLocalStorage("token");
+    const [, setCurrentUserState] = useContext(CurrentUserContext);
+    const [error, setError] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,7 +31,10 @@ const Authentication = () => {
                 console.log("success", res);
                 setData(res.data);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err)
+                setError(err.response.data);
+            });
     };
 
     useEffect(() => {
@@ -43,7 +47,7 @@ const Authentication = () => {
             isLoggedIn: true,
             currentUser: data.user,
         }))
-    }, [data, setToken]);
+    }, [data, setToken, setCurrentUserState]);
 
     useEffect(() => {
         if (isSuccessfullSubmit) {
@@ -61,6 +65,7 @@ const Authentication = () => {
                             <Link to={desctiptionLink}>{descriptionText}</Link>
                         </p>
                         <form onSubmit={handleSubmit}>
+                            {error && <BackendErrorMessages backendErrors={error.errors} /> }
                             <fieldset>
                                 {!isLogin && (
                                     <fieldset className="form-group">
