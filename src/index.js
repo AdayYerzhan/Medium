@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider} from "react-router-dom";
 
 import routes from "pages/routes";
+import {CurrentUserProvider} from "constexts/currentUser";
 
 const App = () => {
     return (
-        <div>
+        <CurrentUserProvider>
             <RouterProvider router={routes()} />
-        </div>
+        </CurrentUserProvider>
     );
 }
 

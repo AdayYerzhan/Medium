@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "hooks/useLocalStorage";
+import {CurrentUserContext} from "constexts/currentUser";
 
 const Authentication = () => {
     const isLogin = useLocation().pathname === "/login";
@@ -17,6 +18,8 @@ const Authentication = () => {
     const [data, setData] = useState(null);
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
     const [token, setToken] = useLocalStorage("token");
+    const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext);
+    console.log("currentUserState", currentUserState)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,11 +37,19 @@ const Authentication = () => {
         if (!data) return;
         setToken(data.user.token);
         setIsSuccessfullSubmit(true);
+        setCurrentUserState(state => ({
+            ...state,
+            isLoading: false,
+            isLoggedIn: true,
+            currentUser: data.user,
+        }))
     }, [data, setToken]);
 
-    if (isSuccessfullSubmit) {
-        return navigate("/");
-    }
+    useEffect(() => {
+        if (isSuccessfullSubmit) {
+            return navigate("/");
+        }
+    }, [isSuccessfullSubmit]);
 
     return (
         <div className="auth-page">
