@@ -1,18 +1,27 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import axios from "axios";
 
 const Authentication = () => {
+    const isLogin = useLocation().pathname === "/login";
+    const pageTitle = isLogin ? "Sign In" : "Sign Up";
+    const desctiptionLink = isLogin ? "/register" : "/login";
+    const descriptionText = isLogin ? "Need an account?" : "Have an account?";
+    const apiUrl = isLogin ? "/users/login" : "/users";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [data, setData] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email, password);
-        axios.post("https://conduit.productionready.io/api/users/login",
-            {user: {email: email, password: password}})
+        const user = isLogin ? {email, password } : {username, email, password};
+        axios.post(`https://conduit.productionready.io/api${apiUrl}`,
+            { user })
             .then(res => {
                 console.log("success", res);
+                setData(res);
             })
             .catch(err => console.log(err));
     };
@@ -22,12 +31,23 @@ const Authentication = () => {
             <div className="container page">
                 <div className="row">
                     <div className="col-md-6 offset-md-3 col-xs-12">
-                        <h1 className="text-xs-center">Login</h1>
+                        <h1 className="text-xs-center">{pageTitle}</h1>
                         <p className="text-xs-center">
-                            <Link to="/register">Need an account?</Link>
+                            <Link to={desctiptionLink}>{descriptionText}</Link>
                         </p>
                         <form onSubmit={handleSubmit}>
                             <fieldset>
+                                {!isLogin && (
+                                    <fieldset className="form-group">
+                                        <input
+                                            type="text"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            placeholder="User name"
+                                            className="form-control form-control-lg"
+                                        />
+                                    </fieldset>
+                                )}
                                 <fieldset className="form-group">
                                     <input
                                         type="email"
@@ -37,8 +57,6 @@ const Authentication = () => {
                                         className="form-control form-control-lg"
                                     />
                                 </fieldset>
-                            </fieldset>
-                            <fieldset>
                                 <fieldset className="form-group">
                                     <input
                                         type="password"
@@ -49,7 +67,7 @@ const Authentication = () => {
                                     />
                                 </fieldset>
                             </fieldset>
-                            <button type="submit" className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
+                            <button type="submit" className="btn btn-lg btn-primary pull-xs-right">{pageTitle}</button>
                         </form>
                     </div>
                 </div>
