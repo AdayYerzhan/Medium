@@ -1,6 +1,7 @@
-import React, {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
+import useLocalStorage from "hooks/useLocalStorage";
 
 const Authentication = () => {
     const isLogin = useLocation().pathname === "/login";
@@ -8,23 +9,36 @@ const Authentication = () => {
     const desctiptionLink = isLogin ? "/register" : "/login";
     const descriptionText = isLogin ? "Need an account?" : "Have an account?";
     const apiUrl = isLogin ? "/users/login" : "/users";
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [data, setData] = useState(null);
+    const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
+    const [token, setToken] = useLocalStorage("token");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password);
         const user = isLogin ? {email, password } : {username, email, password};
         axios.post(`https://conduit.productionready.io/api${apiUrl}`,
             { user })
             .then(res => {
                 console.log("success", res);
-                setData(res);
+                setData(res.data);
             })
             .catch(err => console.log(err));
     };
+
+    useEffect(() => {
+        if (!data) return;
+        setToken(data.user.token);
+        setIsSuccessfullSubmit(true);
+    }, [data, setToken]);
+
+    if (isSuccessfullSubmit) {
+        return navigate("/");
+    }
 
     return (
         <div className="auth-page">
