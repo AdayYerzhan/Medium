@@ -4,11 +4,14 @@ import { RouterProvider} from "react-router-dom";
 
 import routes from "pages/routes";
 import {CurrentUserProvider} from "constexts/currentUser";
+import CurrentUserChecker from "components/currentUserChecker";
 
 const App = () => {
     return (
         <CurrentUserProvider>
-            <RouterProvider router={routes()} />
+            <CurrentUserChecker>
+                <RouterProvider router={routes()} />
+             </CurrentUserChecker>
         </CurrentUserProvider>
     );
 }
