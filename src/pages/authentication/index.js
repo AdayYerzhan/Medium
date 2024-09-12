@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import axios from "axios";
 import useLocalStorage from "hooks/useLocalStorage";
 import {CurrentUserContext} from "constexts/currentUser";
 import BackendErrorMessages from "./components/backendErrorMessages";
+import useFetch from "hooks/useFetch";
 
 const Authentication = () => {
     const isLogin = useLocation().pathname === "/login";
@@ -16,44 +16,37 @@ const Authentication = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
-    const [data, setData] = useState(null);
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
-    const [, setToken] = useLocalStorage("token");
+    const [, setToken] = useLocalStorage("tokenMedium");
     const [, setCurrentUserState] = useContext(CurrentUserContext);
-    const [error, setError] = useState(null);
+    const [{response, isLoading, error}, doFetch] = useFetch(apiUrl);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const user = isLogin ? {email, password } : {username, email, password};
-        axios.post(`https://conduit.productionready.io/api${apiUrl}`,
-            { user })
-            .then(res => {
-                console.log("success", res);
-                setData(res.data);
-            })
-            .catch(err => {
-                console.log(err)
-                setError(err.response.data);
-            });
+        doFetch({
+            method: "post",
+            data: { user },
+        })
     };
 
     useEffect(() => {
-        if (!data) return;
-        setToken(data.user.token);
+        if (!response) return;
+        setToken(response.user.token);
         setIsSuccessfullSubmit(true);
         setCurrentUserState(state => ({
             ...state,
             isLoading: false,
             isLoggedIn: true,
-            currentUser: data.user,
+            currentUser: response.user,
         }))
-    }, [data, setToken, setCurrentUserState]);
+    }, [response, setToken, setCurrentUserState]);
 
     useEffect(() => {
         if (isSuccessfullSubmit) {
             return navigate("/");
         }
-    }, [isSuccessfullSubmit]);
+    }, [isSuccessfullSubmit, navigate]);
 
     return (
         <div className="auth-page">
@@ -97,7 +90,11 @@ const Authentication = () => {
                                     />
                                 </fieldset>
                             </fieldset>
-                            <button type="submit" className="btn btn-lg btn-primary pull-xs-right">{pageTitle}</button>
+                            <button
+                                type="submit"
+                                className="btn btn-lg btn-primary pull-xs-right"
+                                disabled={isLoading}
+                            >{pageTitle}</button>
                         </form>
                     </div>
                 </div>
