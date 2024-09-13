@@ -32,6 +32,8 @@ const useFetch = (url) => {
             })
             .catch(err => {
                 console.log("error", err);
+
+                if (err.status === 500) return;
                 setError(err.response.data);
             })
             .finally(() => setIsLoading(false));
