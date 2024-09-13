@@ -21,12 +21,12 @@ const GlobalFeed = () => {
             </div>
             <div className="container page">
                 <div className="row">
-                    <div className="co-md-9">
+                    <div className="col-md-9">
                         {isLoading && <div>Loading...</div>}
                         {error && <div>Some error happened</div>}
                         {isLoading && response && <Feed article={response.article} />}
                     </div>
-                    <div className="co-md-3">Popular tags</div>
+                    <div className="col-md-3">Popular tags</div>
                 </div>
             </div>
         </div>
