@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import GlobalFeed from "pages/globalFeed";
 import Article from "pages/article";
 import TopBar from "components/topBar";
-import Authentication from "./authentication";
+import Authentication from "./pages/authentication";
 
 const routes = () => {
     return createBrowserRouter([
