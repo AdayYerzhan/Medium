@@ -5,6 +5,7 @@ import Article from "pages/article";
 import TopBar from "components/topBar";
 import Authentication from "pages/authentication";
 import TagFeed from "pages/tagFeed";
+import YourFeed from "pages/yourFeed";
 
 const routes = () => {
     return createBrowserRouter([
@@ -15,6 +16,10 @@ const routes = () => {
                 {
                     index: true,
                     element: <GlobalFeed />,
+                },
+                {
+                    path: "/feed",
+                    element: <YourFeed />,
                 },
                 {
                     path: "/tags/:slug",
