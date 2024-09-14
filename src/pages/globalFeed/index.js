@@ -5,6 +5,8 @@ import Pagination from "components/pagination";
 import {getPaginator, limit} from "utils";
 import {useLocation} from "react-router-dom";
 import queryString  from "query-string";
+import Loading from "components/loading";
+import ErrorMassage from "components/errorMassage";
 
 const GlobalFeed = () => {
     const {offset, currentPage} = getPaginator(useLocation().search);
@@ -31,8 +33,8 @@ const GlobalFeed = () => {
             <div className="container page">
                 <div className="row">
                     <div className="col-md-9">
-                        {isLoading && <div>Loading...</div>}
-                        {error && <div>Some error happened</div>}
+                        {isLoading && <Loading />}
+                        {error && <ErrorMassage />}
                         {!isLoading && response && (
                             <>
                                 <Feed articles={response.articles} />
