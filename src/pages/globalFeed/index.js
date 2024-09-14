@@ -8,6 +8,7 @@ import queryString  from "query-string";
 import Loading from "components/loading";
 import ErrorMassage from "components/errorMassage";
 import PopularTags from "components/popularTags";
+import FeedToggler from "components/feedToggler";
 
 const GlobalFeed = () => {
     const {offset, currentPage} = getPaginator(useLocation().search);
@@ -34,6 +35,7 @@ const GlobalFeed = () => {
             <div className="container page">
                 <div className="row">
                     <div className="col-md-9">
+                        <FeedToggler />
                         {isLoading && <Loading />}
                         {error && <ErrorMassage />}
                         {!isLoading && response && (
