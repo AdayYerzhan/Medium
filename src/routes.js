@@ -3,7 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 import GlobalFeed from "pages/globalFeed";
 import Article from "pages/article";
 import TopBar from "components/topBar";
-import Authentication from "./pages/authentication";
+import Authentication from "pages/authentication";
+import TagFeed from "pages/tagFeed";
 
 const routes = () => {
     return createBrowserRouter([
@@ -14,6 +15,10 @@ const routes = () => {
                 {
                     index: true,
                     element: <GlobalFeed />,
+                },
+                {
+                    path: "/tags/:slug",
+                    element: <TagFeed />,
                 },
                 {
                     path: "/login",
