@@ -7,6 +7,7 @@ import {useLocation} from "react-router-dom";
 import queryString  from "query-string";
 import Loading from "components/loading";
 import ErrorMassage from "components/errorMassage";
+import PopularTags from "components/popularTags";
 
 const GlobalFeed = () => {
     const {offset, currentPage} = getPaginator(useLocation().search);
@@ -42,7 +43,7 @@ const GlobalFeed = () => {
                             </>
                         )}
                     </div>
-                    <div className="col-md-3">Popular tags</div>
+                    <div className="col-md-3"><PopularTags /></div>
                 </div>
             </div>
         </div>
