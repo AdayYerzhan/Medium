@@ -34,7 +34,7 @@ const routes = () => {
                     element: <Authentication />,
                 },
                 {
-                    path: "/article",
+                    path: "/article/:slug",
                     element: <Article />,
                 },
             ],
