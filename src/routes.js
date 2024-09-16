@@ -7,6 +7,7 @@ import Authentication from "pages/authentication";
 import TagFeed from "pages/tagFeed";
 import YourFeed from "pages/yourFeed";
 import CreateArticle from "pages/createArticle";
+import EditeArticle from "pages/editArticle";
 
 const routes = () => {
     return createBrowserRouter([
@@ -41,6 +42,10 @@ const routes = () => {
                 {
                     path: "/articles/new",
                     element: <CreateArticle />,
+                },
+                {
+                    path: "/articles/:slug/edit",
+                    element: <EditeArticle />,
                 },
             ],
         }
