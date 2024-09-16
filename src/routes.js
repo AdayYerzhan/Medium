@@ -6,6 +6,7 @@ import TopBar from "components/topBar";
 import Authentication from "pages/authentication";
 import TagFeed from "pages/tagFeed";
 import YourFeed from "pages/yourFeed";
+import CreateArticle from "pages/createArticle";
 
 const routes = () => {
     return createBrowserRouter([
@@ -36,6 +37,10 @@ const routes = () => {
                 {
                     path: "/article/:slug",
                     element: <Article />,
+                },
+                {
+                    path: "/articles/new",
+                    element: <CreateArticle />,
                 },
             ],
         }

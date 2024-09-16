@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import useLocalStorage from "hooks/useLocalStorage";
 import {CurrentUserContext} from "constexts/currentUser";
-import BackendErrorMessages from "./components/backendErrorMessages";
+import BackendErrorMessages from "components/backendErrorMessages";
 import useFetch from "hooks/useFetch";
 
 const Authentication = () => {
