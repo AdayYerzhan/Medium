@@ -18,7 +18,7 @@ const Authentication = () => {
     const [username, setUsername] = useState("");
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false);
     const [, setToken] = useLocalStorage("tokenMedium");
-    const [, setCurrentUserState] = useContext(CurrentUserContext);
+    const [, dispatch] = useContext(CurrentUserContext);
     const [{response, isLoading, error}, doFetch] = useFetch(apiUrl);
 
     const handleSubmit = (e) => {
@@ -34,13 +34,8 @@ const Authentication = () => {
         if (!response) return;
         setToken(response.user.token);
         setIsSuccessfullSubmit(true);
-        setCurrentUserState(state => ({
-            ...state,
-            isLoading: false,
-            isLoggedIn: true,
-            currentUser: response.user,
-        }))
-    }, [response, setToken, setCurrentUserState]);
+        dispatch({type: "SET_AUTHORIZED", payload: response.user});
+    }, [response, setToken, dispatch]);
 
     useEffect(() => {
         if (isSuccessfullSubmit) {
