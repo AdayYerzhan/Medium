@@ -8,6 +8,7 @@ import TagFeed from "pages/tagFeed";
 import YourFeed from "pages/yourFeed";
 import CreateArticle from "pages/createArticle";
 import EditeArticle from "pages/editArticle";
+import Settings from "pages/settings";
 
 const routes = () => {
     return createBrowserRouter([
@@ -46,6 +47,10 @@ const routes = () => {
                 {
                     path: "/articles/:slug/edit",
                     element: <EditeArticle />,
+                },
+                {
+                    path: "/settings",
+                    element: <Settings />,
                 },
             ],
         }
